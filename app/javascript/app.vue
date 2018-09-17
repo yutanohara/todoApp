@@ -1,0 +1,72 @@
+<template>
+    <div id="app">
+        <input type="text" v-model="newTask">
+        <button @click="createTask">作成</button>
+        <ul>
+            <li v-for="task in tasks">
+                {{ task.name }}
+                <button @click="deleteTask(task.id)">削除</button>
+            </li>
+        </ul>
+    </div>
+</template>
+
+<script>
+    import axios from 'axios';
+
+    export default {
+        data: function () {
+            return {
+                tasks: [],
+                newTask: ''
+            }
+        },
+        mounted: function() {
+            this.getTasks();
+        },
+        methods: {
+            getTasks() {
+                axios
+                    .get('/api/tasks')
+                    .then(res => {
+                        for(var i=0; i<res.data.length; i++) {
+                            this.tasks.push(res.data[i]);
+                        }
+                    })
+                    .catch(err => {
+                        return err
+                    });
+            },
+            createTask() {
+                axios
+                    .post('/api/tasks',{
+                        task: {
+                            name: this.newTask
+                        }
+                    })
+                    .then( res => {
+                        console.log(res.data)
+                        this.tasks.unshift(res.data);
+                        this.newTask = '';
+                    })
+                    .catch( err => {console.log(err)})
+            },
+            deleteTask(id) {
+                axios
+                    .delete('/api/tasks/' + id)
+                    .then( res => {
+                        console.log(res);
+                        window.location.reload()
+                    })
+                    .catch( err => {console.log(err)})
+            }
+        },
+    }
+</script>
+
+<style scoped>
+p {
+  font-size: 2em;
+  text-align: center;
+}
+</style>
