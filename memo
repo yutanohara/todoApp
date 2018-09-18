@@ -28,11 +28,22 @@ User周り
 2. 画面作成 componentsあたりで苦戦していた。また次回やろう
 
 3. components周りをカンニングしながら構築していこう。
-　- sign_up, sign_inをcomponentsで表示させたい。
+　- sign_upをcomponentsで表示させたい。
     - routerを作る必要があり。router.jsの中身なんだっけ
     - vue-routerクラスは必要みたい（なぜだか知らんが）
     - routesの中にpathとそれにあったcomponentsをつけていく。配列で入れる
     - vueRouterのインスタンスを作成しroutesを入れる。
+    - template内はdivで加工必要があるらしい（なぜだか知らんが）
+    - controllerのrenderでjson: というのが必要でした。(これがないと500エラーが出る)
+
+  - sign_inをしたい
+    - loginもpostみたいだ。getで画面をrenderして、submitでpostをする。
+    - viewが減ったので綺麗になったのかな？多分　→　やっぱりget new  みたいのはいらなかった。rederで一つのページにまとめられるので。。。
+    - user.jsのrouterから表示したい。render h(app)観たいのは使いたくないのだ。
+    - しかし、うまくいかない。。うまくいった。
+    - vue-routerのmodeが必要だったみたいだ。後vue-routerにはdefaultで<router-view>というものが存在した
+
+
 
 -------------------------------------------------------
 

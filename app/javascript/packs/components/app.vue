@@ -44,9 +44,9 @@
                             name: this.newTask
                         }
                     })
-                    .then( res => {
-                        console.log(res.data)
-                        this.tasks.unshift(res.data);
+                    .then( req => {
+                        console.log(req.data)
+                        this.tasks.unshift(req.data);
                         this.newTask = '';
                     })
                     .catch( err => {console.log(err)})
