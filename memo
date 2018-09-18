@@ -1,0 +1,110 @@
+Todoアプリ in Rails and Vue 9/17~
+機能:(ルール)
+    1. タスクをつけられる。→OK
+    - せっかくなのでdeleteもつけてみることに→ok asyncができてないが、、
+  2. ユーザーごとにつける
+    3. axios通信. vue通信→成功
+    4. レイアウトはmaterize?
+    5. メール機能搭載
+    6. scaffold, deviseの使用は禁止
+    7. １日で完成(クオリティは低くてOK)　→ さすがに１日じゃきついが学ぶことは多かった！！
+    8. gitに公開 → ok
+
+おまけ:
+  1. rails admin管理画面を作りたい
+    - 全ユーザー、全タスクを観れる
+
+要件:
+  1. Task Model
+    - name:string, is_done:boolean, user_id:string
+
+  2. User Model
+    - name:string, mail:string, password:text
+
+-------------------------------------------------------
+手順
+User周り
+1. Modelの作成
+2. 画面作成 componentsあたりで苦戦していた。また次回やろう
+
+3. components周りをカンニングしながら構築していこう。
+　- sign_up, sign_inをcomponentsで表示させたい。
+    - routerを作る必要があり。router.jsの中身なんだっけ
+    - vue-routerクラスは必要みたい（なぜだか知らんが）
+    - routesの中にpathとそれにあったcomponentsをつけていく。配列で入れる
+    - vueRouterのインスタンスを作成しroutesを入れる。
+
+-------------------------------------------------------
+
+カンニングしたところ
+1. Task controllerのclass部分(最初の名前のところ。いつも自動だったので、知らん)
+2. api/tasks.jsonが表示されない。何がおかしい？
+    - controllerがactioncontrollerになってた
+    - ディレクトリの構造をapi/tasks/tasks_controllerにしていた。。。
+    - api/tasks_controller.rbでした。そしたらできました。
+
+3. axiosが動かなかった。protect~が書いていない。。どこだか忘れた
+  - protect_from_forgery with: :null_session
+  - application controllerでした。。
+
+  - axiosのgetの書き方がわからない。axiosのapiの叩き方講座
+    - まずは中かっこを書きましょう。
+    ex) ((res) => { return hoge }); みたいに
+
+  -axiosで配列をgetする時の注意点。
+   1. まず配列をdata function内で定義をする必要がある。
+   2. その後mountedでfunctionを作成　そこにメソッドチェーンを繋げる
+   3. getAjaxメソッドを作成してapiを叩く
+   4. this.function; this.objectであるようにthisを忘れない！！！
+
+   ※注意点: dataにtasksを配列で入れるようなことはできない。。
+   まずはdataは初期値かnullである
+
+
+4. vueを入れたことにより、アクセスするごとに毎回buildしてる。これだと時間がかかってしまうので、
+   serverを立てて自動で更新するようにします。やり方を知らないのでカンニング
+    - 必要なもの, やること
+      1. Procfile, Proc.dev, bin/server かな
+        - bin/server内にbundle installとprocfile.devの実行が入っている。
+        これで自動的に読むようにしている。herokuでprocを書くようにと言われたが、
+        ここで書けばそれ通りに実行するということだったのか。なるほどー
+      2. Procfile.devの中身
+        - bundle exec rails s ← serverの起動
+        - ./bin/webpacker-dev-server よく見るやつ
+         - local用の便利なサーバらしい
+         - 中身はnode.js, expressサーバ
+         - 自動ビルド後、自動ロードする優れもの
+         - 編集したモジュールのみを更新するHot module replacementが使われている！
+
+      3. bin/serverはpermission denied されるのでchmodで権限を付与
+      4. bin/serverで実行できる！なんて簡単だ！！
+
+5. カンニングはしてないがメモを残す. axiosでpostをする. urlがcreateになる。
+  さてこれは簡単にできるのだろうか。
+   - 一回目とりあえずノリでgetと同じようにpostも書いて観たが、500のエラーがあった。
+   - nullで作成されている。postはうまくいっているようだ
+   - nameがnullで保存されている。なぜだ。わかりました。。
+    1. tasks_controllerでTask.new()内のparamsが:nameになっていた。
+      ここはparams.fetch()で取る必要があった（ちょっとよくわからない）
+      どうやらstrong parameterというらしい
+      rubymineのdebugを使って観たらめちゃくちゃ分かりやすかった。
+      0> params<ActionController::Parameters {"task"=>{"name"=>"aaaaeeee"}, "format"=>"json", "controller"=>"api/tasks", "action"=>"create"} permitted: false>
+      0> params.fetch(:task).permit(:name)=> <ActionController::Parameters {"name"=>"aaaaeeee"} permitted: true>
+      おもしろ！！！
+    2. dataの取り方がおかしかった。paramsを変更した後resに来るのはres.dataに
+    nameが入っているデータが来たのでそれをunshiftすることにしました。
+
+6. deleteの部分の実装は比較的簡単であったが、リアクティブにならなかった。
+  その原因は・・・
+  - よくわからん。。今度聞いてみよう。とりあえずwindow.location.reload()で回避
+
+--------------------------------------------------------
+
+気になったところ
+1. jsonbuilderのsetってなんぞや
+ - showを作る必要なくね
+
+2. foremanとは
+ - procfileを実行するもの　手動でコマンドを叩かず、自動でやってくれる
+
+3. timezoneはconfig/applicationで変更できる
