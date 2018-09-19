@@ -1,5 +1,13 @@
 class UsersController < ApplicationController
 
+  def login
+    @user = User.find_by(user_params)
+    if @user
+      flash[:notice] = "success login!"
+      redirect_to '/'
+    end
+  end
+
   #POST
   def create
     @user = User.new(user_params)
@@ -14,6 +22,6 @@ class UsersController < ApplicationController
   private
 
   def user_params
-    params.fetch(:user, {}).permit(:name, :password)
+    params.fetch(:user, {}).permit(:name, :password, :password_confirmation)
   end
 end

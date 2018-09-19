@@ -1,7 +1,7 @@
 Todoアプリ in Rails and Vue 9/17~
 機能:(ルール)
     1. タスクをつけられる。→OK
-    - せっかくなのでdeleteもつけてみることに→ok asyncができてないが、、
+    - せっかくなのでdeleteもつけてみることに→ok asyncができてないが、、→apiなので、それはできないっぽい
   2. ユーザーごとにつける
     3. axios通信. vue通信→成功
     4. レイアウトはmaterize?
@@ -42,6 +42,11 @@ User周り
     - user.jsのrouterから表示したい。render h(app)観たいのは使いたくないのだ。
     - しかし、うまくいかない。。うまくいった。
     - vue-routerのmodeが必要だったみたいだ。後vue-routerにはdefaultで<router-view>というものが存在した
+    - sign_inのresponseURLがなぜか/sign_upになっているという。。よくわからん
+
+  - session周り
+    - resqueとは
+        - exceptionのcatchみたいなもの
 
 
 
@@ -119,3 +124,5 @@ User周り
  - procfileを実行するもの　手動でコマンドを叩かず、自動でやってくれる
 
 3. timezoneはconfig/applicationで変更できる
+
+4. 感嘆符のあるなし。find_by, find_by! これは!がついたときにexception例外を発生してくれる。ない場合はnullを返す
