@@ -48,6 +48,12 @@ User周り
     - resqueとは
         - exceptionのcatchみたいなもの
 
+4. パスワードをsecureにする
+    - gem 'bcrypt'　の導入
+    - rails generate migration add_password_digest_to_users password_digest:string
+    - どうやらpassword_confirmationはフロントサイドでの確認のようだ。サーバーにconfirmationを送ったりはしない
+        だからエラーが起きていたのだ。
+
 
 
 -------------------------------------------------------
