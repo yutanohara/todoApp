@@ -15,7 +15,7 @@
     import axios from 'axios';
 
     export default {
-        data: function () {
+        data () {
             return {
                 tasks: [],
                 newTask: ''
@@ -29,13 +29,11 @@
                 axios
                     .get('/api/tasks')
                     .then(res => {
-                        for(var i=0; i<res.data.length; i++) {
-                            this.tasks.push(res.data[i]);
+                        for( let task in res.data ) {
+                            this.tasks.push(res.data[task])
                         }
                     })
-                    .catch(err => {
-                        return err
-                    });
+                    .catch(err => { return err });
             },
             createTask() {
                 axios
@@ -54,8 +52,7 @@
             deleteTask(id) {
                 axios
                     .delete('/api/tasks/' + id)
-                    .then( res => {
-                        console.log(res);
+                    .then( () => {
                         window.location.reload()
                     })
                     .catch( err => {console.log(err)})

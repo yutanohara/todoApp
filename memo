@@ -53,6 +53,10 @@ User周り
     - rails generate migration add_password_digest_to_users password_digest:string
     - どうやらpassword_confirmationはフロントサイドでの確認のようだ。サーバーにconfirmationを送ったりはしない
         だからエラーが起きていたのだ。
+5. エラーメッセージ validate message
+    - @user.errors.full_message.eachに格納されているらしい？
+    - エラーメッセージは表示できた。しかし、なぜかpasswordのところが自動的にpresenceのvalidationがかかっている。
+    - そのため英語で表示されているのだが、よくわからん。
 
 
 
@@ -132,3 +136,7 @@ User周り
 3. timezoneはconfig/applicationで変更できる
 
 4. 感嘆符のあるなし。find_by, find_by! これは!がついたときにexception例外を発生してくれる。ない場合はnullを返す
+
+5. json のerrorsのやつ。errorメッセージの時に使うのか。初めて気づいたぜ。
+
+6. javascriptのfor文の書き方.配列内のオブジェクトを書く時ちょっと違う。添え字をgetしてしまうので、res.data[data]みたいにする必要がある。

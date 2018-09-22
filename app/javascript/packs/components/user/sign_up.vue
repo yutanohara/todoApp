@@ -1,7 +1,12 @@
 <template>
     <div>
         <h1>会員登録</h1>
-        <p>ログインID: <input type="text" v-model="login_id"></p>
+        <div class="form-error" v-if="errors">
+            <li v-if="errors.name">{{errors.name[0]}}</li>
+            <li v-for="error in errors.password">{{error}}</li>
+            <li v-if="errors.password_confirmation">{{errors.password_confirmation[0]}}</li>
+        </div>
+        <p>ログインID: <input type="text" v-model="login_id" required></p>
         <p>パスワード: <input type="password" v-model="password"></p>
         <p>パスワード確認: <input type="password" name="password_confirmation" v-model="password_confirmation"></p>
         <button @click="signUp">登録</button>
@@ -13,11 +18,12 @@
 
     export default {
         name: "sign_up",
-        data () {
+        data() {
             return {
                 login_id: '',
                 password: '',
                 password_confirmation: '',
+                errors: '',
             }
         },
         methods: {
@@ -30,11 +36,14 @@
                             password_confirmation: this.password_confirmation
                         }
                     })
-                    .then( req => {
+                    .then(req => {
                         console.log(req)
-                        // window.location.reload()
+                        location.href = '/'
                     })
-                    .catch( err => { console.log(err) })
+                    .catch(err => {
+                        this.errors = err.response.data;
+                        render('/sign_up');
+                    })
             }
         }
     }
