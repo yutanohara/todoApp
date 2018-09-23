@@ -2,7 +2,7 @@ Todoアプリ in Rails and Vue 9/17~
 機能:(ルール)
     1. タスクをつけられる。→OK
     - せっかくなのでdeleteもつけてみることに→ok asyncができてないが、、→apiなので、それはできないっぽい
-  2. ユーザーごとにつける
+  2. ユーザーごとにつける 仕様を大幅に変更する必要がある。api通信でsessionが残せない。
     3. axios通信. vue通信→成功
     4. レイアウトはmaterize?
     5. メール機能搭載
@@ -43,21 +43,29 @@ User周り
     - しかし、うまくいかない。。うまくいった。
     - vue-routerのmodeが必要だったみたいだ。後vue-routerにはdefaultで<router-view>というものが存在した
     - sign_inのresponseURLがなぜか/sign_upになっているという。。よくわからん
+    - error後のrender,redirectするところがうまくいかない。
 
   - session周り
+    - sissionの設定の仕方がよくわからない。application_controllerに@current_userを設定するも、うまく動かず。。
     - resqueとは
         - exceptionのcatchみたいなもの
+    - apiでユーザー登録をするのはcsrf的によろしくないので、form actionで作成することにする
+    - もしかしてもうできたりする？意外と簡単だったりして。。
 
-4. パスワードをsecureにする
+4. パスワードをsecureにする OK
     - gem 'bcrypt'　の導入
     - rails generate migration add_password_digest_to_users password_digest:string
     - どうやらpassword_confirmationはフロントサイドでの確認のようだ。サーバーにconfirmationを送ったりはしない
         だからエラーが起きていたのだ。
+
 5. エラーメッセージ validate message
     - @user.errors.full_message.eachに格納されているらしい？
     - エラーメッセージは表示できた。しかし、なぜかpasswordのところが自動的にpresenceのvalidationがかかっている。
     - そのため英語で表示されているのだが、よくわからん。
 
+6. フラッシュの表示がされない。
+    - なぜだろう。。
+    -
 
 
 -------------------------------------------------------
@@ -140,3 +148,8 @@ User周り
 5. json のerrorsのやつ。errorメッセージの時に使うのか。初めて気づいたぜ。
 
 6. javascriptのfor文の書き方.配列内のオブジェクトを書く時ちょっと違う。添え字をgetしてしまうので、res.data[data]みたいにする必要がある。
+
+7. protect_from_forgeryとは何か
+    - exceptionにするとcsrfのエラーが出る。null_sessionにすると大丈夫。
+    - csrf対策らしい。どうやらapiの時はexceptionをしてcsrfの対策をoffにする必要があるみたいだ。
+    - というわけでユーザーごとのセッションを残すのにapiを作ることは無理みたいだ。

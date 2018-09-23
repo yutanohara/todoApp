@@ -1,4 +1,9 @@
 <div id='user'>
+  <% if @error_messages %>
+    <% @error_messages.full_messages.each do |msg| %>
+      <li><%= msg %></li>
+    <% end %>
+  <% end %>
   <router-view></router-view>
 </div>
 <%= javascript_pack_tag 'user' %>

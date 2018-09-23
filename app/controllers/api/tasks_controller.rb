@@ -1,5 +1,5 @@
 class Api::TasksController < ApplicationController
-
+  protect_from_forgery with: :null_session
   # GET /tasks.json
   def index
     @tasks = Task.all.order('created_at DESC')
@@ -11,6 +11,7 @@ class Api::TasksController < ApplicationController
 
     if @task.save
       render json: @task, status: :created
+      flash[:notice] = "タスクを追加しました"
     else
       render json: @task.errors, status: :unprocessable_entity
     end

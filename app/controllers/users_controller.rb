@@ -1,4 +1,8 @@
 class UsersController < ApplicationController
+  before_action :forbid_login_user, only: %i[index, create, login]
+
+  def index
+  end
 
   def login
     @user = User.find_by(user_params)
@@ -13,9 +17,11 @@ class UsersController < ApplicationController
     @user = User.new(user_params)
 
     if @user.save
+      flash[:notice] = "新規登録しました"
       render json: @user, status: :created
     else
-      render json: @user.errors, status: :unprocessable_entity
+      @error_messages = @user.errors
+      render('index')
     end
   end
 
