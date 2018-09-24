@@ -5,8 +5,9 @@ Rails.application.routes.draw do
   get '/sign_in', to: 'users#index'
   post '/sign_in', to: 'users#login'
 
-  get '/sign_up', to: 'users#index'
+  get '/sign_up', to: 'users#sign_up'
   post '/sign_up', to: 'users#create'
+  post '/sign_out', to: 'users#logout'
 
   namespace :api, format: 'json' do
     resources :tasks, only: %i[index create destroy]

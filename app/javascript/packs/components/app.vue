@@ -1,11 +1,13 @@
 <template>
-    <div id="app">
+    <div id="app" class="collection">
         <input type="text" v-model="newTask">
-        <button @click="createTask">作成</button>
+        <button @click="createTask" class="btn waves-effect waves-light">作成</button>
         <ul>
-            <li v-for="task in tasks">
+            <li v-for="task in tasks" class="collection-item">
                 {{ task.name }}
-                <button @click="deleteTask(task.id)">削除</button>
+                <span class="badge">
+                <button @click="deleteTask(task.id)" class="waves-effect waves-light btn-large"><i class="material-icons">delete</i></button>
+                </span>
             </li>
         </ul>
     </div>

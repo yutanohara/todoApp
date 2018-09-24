@@ -51,6 +51,7 @@ group :development do
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
   gem 'foreman'
+  gem 'letter_opener'
 end
 
 group :test do
@@ -66,3 +67,5 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 gem 'jquery-rails'
 gem 'bcrypt'
+gem 'materialize-sass'
+gem 'material_icons'

@@ -1,0 +1,9 @@
+ja:
+  activemodel:
+    attributes:
+      user:
+        name: 'ログインID'
+        mail: 'メールアドレス'
+        password: 'パスワード'
+        password_confirmation: 'パスワード確認'
+
