@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_action :forbid_login_user, only: %i[index, create, login, sign_up, sign_in]
+  before_action :forbid_login_user, only: %i[index, create, login, sign_up]
 
   def index
   end

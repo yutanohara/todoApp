@@ -1,1 +1,6 @@
 <%= javascript_pack_tag 'hello_vue' %>
+<% if @current_user %>
+  <%= @current_user.name %>
+<% end %>
+<%= link_to("ログアウト", "/sign_out", {method: :post})%>
+<%= link_to("会員登録", "/sign_up") %>
